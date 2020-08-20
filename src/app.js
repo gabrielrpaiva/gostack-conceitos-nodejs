@@ -37,7 +37,7 @@ app.use("/repositories/:id", validateProjectId);
 app.get("/repositories", (request, response) => {
 
   let newRepo = repositories.map(repo => {return {...repo, 
-                                          qdtLikes: likes.find(like => like.id === repo.id).qtd}} );
+                                          likes: likes.find(like => like.id === repo.id).qtd}} );
 
   return response.json(newRepo);
 });
@@ -46,7 +46,7 @@ app.post("/repositories", validateUrlGit, (request, response) => {
   const { title, url, techs } = request.body;
   const id = uuid();
   const like = { id, qtd: 0 };
-  const repositorie = { id, title, url, techs, qdtLikes: like.qtd }; 
+  const repositorie = { id, title, url, techs, likes: like.qtd }; 
 
   repositories.push(repositorie);
 
@@ -67,14 +67,14 @@ app.put("/repositories/:id", (request, response) => {
     return response.status(400).json({ error: "Repository not found" });
   }
 
-  const like = repositories.find((repositorie) => repositorie.id === id).like;
+  const likes = repositories.find((repositorie) => repositorie.id === id).likes;
 
   const repositorie = {
     id,
     title,
     url,
     techs,
-    like,
+    likes,
   };
 
   repositories[repositorieIndex] = repositorie;
@@ -127,7 +127,7 @@ app.put("/repositories/:id/like", (request, response) => {
 
     newRepo = {
       ...newRepo,
-      qdtLikes: qtd
+      likes: qtd
     }
 
   return response.json(newRepo);
