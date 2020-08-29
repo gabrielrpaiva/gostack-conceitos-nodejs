@@ -14,11 +14,11 @@ describe("Likes", () => {
     let response = await request(app).post(
       `/repositories/${repository.body.id}/like`
     );
-
+    
     expect(response.body).toMatchObject({
       likes: 1
     });
-
+    response.body
     response = await request(app).post(
       `/repositories/${repository.body.id}/like`
     );
